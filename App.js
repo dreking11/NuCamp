@@ -1,18 +1,20 @@
-import React, { Component } from 'react';
-import Main from './components/maincomponent';
-import { BrowserRouter } from 'react-router-dom';
-import './App.css';
+import React from 'react';
+import Main from './components/MainComponent'
+import { Provider } from 'react-redux';
+import { ConfigureStore } from './redux/configureStore';
+import { PersistGate } from 'redux-persist/es/integration/react';
+import Loading from './components/LoadingComponent';
 
-class App extends Component {
-  render() {
-      return (
-        <BrowserRouter>
-          <div className="App">
-              <Main />
-          </div>
-        </BrowserRouter>
-      );
-  }
+const {persistor,store} = ConfigureStore();
+
+export default function App() {
+  return (
+    <Provider store={store}>
+      <PersistGate
+        loading={<Loading />}
+        persistor={persistor}>
+        <Main />
+      </PersistGate>
+    </Provider>
+  );
 }
-
-export default App;
